@@ -25,39 +25,80 @@ $(document).ready(function () {
     //----------------------
     database.ref("/entries").orderByChild("entryDate").on("value", function (snapshot) {
         //these five lines get the data into descending date order
-        let tempArray = [];
+        let tempArrayOfObjects = [];
         snapshot.forEach((child) => {
-            tempArray.push(child.val());
+            let theKey = child.key;
+            let theValue = child.val();
+            theValue.entryKey = theKey;
+            tempArrayOfObjects.push(theValue);
         });
-        theEntries = tempArray.reverse();
+        theEntries = tempArrayOfObjects.reverse();
         let theString = "";
         theEntries.forEach(function (child) {
-            let theDate = child.entryDate
-            let theOdometer = child.entryOdometer
-            let theGallons = child.entryGallons
-            let theQuarts = child.entryQuarts
-            let theNotes = child.entryNotes
-            theString = theString + theDate + " / " + theOdometer + " / " + theGallons + " / " + theQuarts + " / " + theNotes + "<hr>";
+            let theKey = child.entryKey;
+            let theDate = child.entryDate;
+            let theOdometer = child.entryOdometer;
+            let theGallons = child.entryGallons;
+            let theQuarts = child.entryQuarts;
+            let theNotes = child.entryNotes;
+            theString = theString + "<div data-id='" + theKey + "' class='line-item'><div id='date" + theKey + "'>" + theDate + "</div><div id='odometer" + theKey + "'>" + theOdometer + "</div><div id='gallons" + theKey + "'>" + theGallons + "</div><div id='quarts" + theKey + "'>" + theQuarts + "</div><div id='notes" + theKey + "'>" + theNotes + "</div></div><hr>";
         });
         $("#display-entries").html(theString);
     }, function (errorObject) {
         console.log("error: " + errorObject.code);
     });
 
+
+    $(document.body).on("click", ".line-item", function () {
+        let theIDToEdit = $(this).attr('data-id');
+        // console.log(theIDToEdit);
+        let entryDate = $("#date" + theIDToEdit).text();
+        let entryOdometer = $("#odometer" + theIDToEdit).text();
+        let entryGallons = $("#gallons" + theIDToEdit).text();
+        let entryQuarts = $("#quarts" + theIDToEdit).text();
+        let entryNotes = $("#notes" + theIDToEdit).text();
+        $("#input-date").val(entryDate);
+        $("#input-odometer").val(entryOdometer);
+        $("#input-gallons").val(entryGallons);
+        $("#input-quarts").val(entryQuarts);
+        $("#input-notes").val(entryNotes);
+        $("#editing-id").val(theIDToEdit);
+    });
+
     $("#add-entry").on("click", function (event) {
         event.preventDefault();
-        var entryDate = $("#input-date").val().trim();
-        var entryOdometer = parseInt($("#input-odometer").val().trim());
-        var entryGallons = parseInt($("#input-gallons").val().trim());
-        var entryQuarts = parseInt($("#input-quarts").val().trim());
-        var entryNotes = $("#input-notes").val().trim();
+        let entryDate = $("#input-date").val().trim();
+        let entryOdometer = parseInt($("#input-odometer").val().trim());
+        let entryGallons = parseInt($("#input-gallons").val().trim());
+        let entryQuarts = parseInt($("#input-quarts").val().trim());
+        let entryNotes = $("#input-notes").val().trim();
 
-        database.ref("/entries").push({
-            entryDate: entryDate,
-            entryOdometer: entryOdometer,
-            entryGallons: entryGallons,
-            entryQuarts: entryQuarts,
-            entryNotes: entryNotes,
-        });
+        if (1 === 1) {
+            let theIDToEdit = $("#editing-id").val().trim();
+            database.ref("/entries/" + theIDToEdit).set({
+                entryDate: entryDate,
+                entryOdometer: entryOdometer,
+                entryGallons: entryGallons,
+                entryQuarts: entryQuarts,
+                entryNotes: entryNotes,
+            });
+        } else {
+            database.ref("/entries").push({
+                entryDate: entryDate,
+                entryOdometer: entryOdometer,
+                entryGallons: entryGallons,
+                entryQuarts: entryQuarts,
+                entryNotes: entryNotes,
+            });
+        };
+        $("#input-date").val("");
+        $("#input-odometer").val("");
+        $("#input-gallons").val("");
+        $("#input-quarts").val("");
+        $("#input-notes").val("");
+        $("#editing-id").val("");
+
     });
+
+
 });
