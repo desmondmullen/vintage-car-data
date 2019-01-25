@@ -1,0 +1,35 @@
+label {
+    display: relative;
+    width: 150px;
+    text-align: right;
+    font-weight: bold;
+}
+
+input {
+    display: inline;
+}
+
+#editing-id {
+    color: red;
+    font-weight: bold;
+}
+
+#add-entry {
+    display: inline;
+}
+
+#editing-id {
+    display: none;
+}
+
+#update-entry {
+    display: none;
+}
+
+#delete-entry {
+    display: none;
+}
+
+#cancel-update {
+    display: none;
+}

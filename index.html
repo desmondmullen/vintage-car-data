@@ -6,6 +6,7 @@
     <title>Vintage Car Data Tracker</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script src="https://www.gstatic.com/firebasejs/5.8.1/firebase.js"></script>
     <script src="logic.js"></script>
@@ -13,14 +14,18 @@
 
 <body>
     <form>
-        <input id="input-date" type="text" name="input-date">
-        <input id="input-odometer" type="text" name="input-odometer">
-        <input id="input-gallons" type="text" name="input-gallons">
-        <input id="input-quarts" type="text" name="input-quarts">
-        <input id="input-notes" type="text" name="input-notes">
+        <label for="input-date">Date: </label><input id="input-date" type="text" name="input-date"><br>
+        <label for="input-odometer">Odometer: </label><input id="input-odometer" type="text" name="input-odometer"><br>
+        <label for="input-gallons">Gallons of Gas: </label><input id="input-gallons" type="text" name="input-gallons"><br>
+        <label for="input-quarts">Quarts of Oil: </label><input id="input-quarts" type="text" name="input-quarts"><br>
+        <label for="input-notes">Notes: </label><input id="input-notes" type="text" name="input-notes"><br>
         <input id="editing-id" type="text" name="editing-id">
-        <button id="add-entry">Add Entry</button>
+        <button id="add-entry" class="add-entry">Add Entry</button><button id="update-entry" class="add-entry">Update
+            Entry</button><button id="delete-entry">Delete
+            Entry</button><button id="cancel-update">Cancel
+            Update</button>
     </form>
+    <hr>
     <div id="display-entries"></div>
 </body>
 

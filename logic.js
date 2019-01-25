@@ -63,9 +63,10 @@ $(document).ready(function () {
         $("#input-quarts").val(entryQuarts);
         $("#input-notes").val(entryNotes);
         $("#editing-id").val(theIDToEdit);
+        hideAddEntryButton()
     });
 
-    $("#add-entry").on("click", function (event) {
+    $(".add-entry").on("click", function (event) {
         event.preventDefault();
         let entryDate = $("#input-date").val().trim();
         let entryOdometer = parseInt($("#input-odometer").val().trim());
@@ -73,7 +74,7 @@ $(document).ready(function () {
         let entryQuarts = parseInt($("#input-quarts").val().trim());
         let entryNotes = $("#input-notes").val().trim();
 
-        if (1 === 1) {
+        if ($("#editing-id").val().trim() != "") {
             let theIDToEdit = $("#editing-id").val().trim();
             database.ref("/entries/" + theIDToEdit).set({
                 entryDate: entryDate,
@@ -91,13 +92,44 @@ $(document).ready(function () {
                 entryNotes: entryNotes,
             });
         };
+        emptyInputFields();
+    });
+
+    function emptyInputFields() {
         $("#input-date").val("");
         $("#input-odometer").val("");
         $("#input-gallons").val("");
         $("#input-quarts").val("");
         $("#input-notes").val("");
         $("#editing-id").val("");
+        showAddEntryButton();
+    };
 
+    function hideAddEntryButton() {
+        $("#add-entry").css('display', 'none');
+        $("#editing-id").css('display', 'inline');
+        $("#update-entry").css('display', 'inline');
+        $("#delete-entry").css('display', 'inline');
+        $("#cancel-update").css('display', 'inline');
+    };
+
+    function showAddEntryButton() {
+        $("#add-entry").css('display', 'inline');
+        $("#editing-id").css('display', 'none');
+        $("#update-entry").css('display', 'none');
+        $("#delete-entry").css('display', 'none');
+        $("#cancel-update").css('display', 'none');
+        emptyInputFields();
+    };
+
+    $("#cancel-update").on("click", function (event) {
+        showAddEntryButton();
+    });
+
+    $("#delete-entry").on("click", function (event) {
+        let theIDToEdit = $("#editing-id").val().trim();
+        database.ref("/entries/" + theIDToEdit).remove();
+        showAddEntryButton();
     });
 
 
