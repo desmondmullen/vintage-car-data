@@ -23,16 +23,23 @@ $(document).ready(function () {
     });
     // Number of online users is the number of objects in the presence list.
     //----------------------
-    database.ref("/entries").on("value", function (snapshot) {
-        theEntries = snapshot.val();
-        snapshot.forEach(function (child) {
-            let theDate = theEntries[child.key].entryDate
-            let theOdometer = theEntries[child.key].entryOdometer
-            let theGallons = theEntries[child.key].entryGallons
-            let theQuarts = theEntries[child.key].entryQuarts
-            let theNotes = theEntries[child.key].entryNotes
-            $("#display-entries").append(theDate, theOdometer, theGallons, theQuarts, theNotes + "<hr>");
+    database.ref("/entries").orderByChild("entryDate").on("value", function (snapshot) {
+        //these five lines get the data into descending date order
+        let tempArray = [];
+        snapshot.forEach((child) => {
+            tempArray.push(child.val());
         });
+        theEntries = tempArray.reverse();
+        let theString = "";
+        theEntries.forEach(function (child) {
+            let theDate = child.entryDate
+            let theOdometer = child.entryOdometer
+            let theGallons = child.entryGallons
+            let theQuarts = child.entryQuarts
+            let theNotes = child.entryNotes
+            theString = theString + theDate + " / " + theOdometer + " / " + theGallons + " / " + theQuarts + " / " + theNotes + "<hr>";
+        });
+        $("#display-entries").html(theString);
     }, function (errorObject) {
         console.log("error: " + errorObject.code);
     });
