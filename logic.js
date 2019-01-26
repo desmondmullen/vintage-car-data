@@ -67,7 +67,7 @@ $(document).ready(function () {
             let theNotes = child.entryNotes || "&nbsp;";
             let theMPG = child.entryMPG || "no mpg data yet";
             let theMPQ = child.entryMPQ || "no mpq data yet";
-            theString = theString + "<div data-id='" + theKey + "' class='line-item'><div id='date" + theKey + "' class='date'>" + theDate + "</div><div id='odometer" + theKey + "'>" + theOdometer + "</div><div id='gallons" + theKey + "'>" + theGallons + "</div><div id='quarts" + theKey + "'>" + theQuarts + "</div><div id='notes" + theKey + "' class='notes'>" + theNotes + "</div><div id='mpg" + theKey + "'>" + theMPG + "</div><div id='mpq" + theKey + "'>" + theMPQ + "</div></div><hr>";
+            theString = theString + "<div data-id='" + theKey + "' class='line-item'><div id='date" + theKey + "' class='date'>" + theDate + "</div><div id='odometer" + theKey + "'>" + theOdometer + "</div><div id='gallons" + theKey + "'>" + theGallons + "</div><div id='quarts" + theKey + "'>" + theQuarts + "</div><div id='notes" + theKey + "' class='notes'>" + theNotes + "</div><div id='mpg" + theKey + "'>" + theMPG + "</div><div id='mpq" + theKey + "'>" + theMPQ + "</div></div><br>";
         });
         $("#display-entries").html(theString);
     }, function (errorObject) {

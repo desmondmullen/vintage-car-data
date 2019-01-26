@@ -13,15 +13,25 @@ label {
     vertical-align: top;
 }
 
+.label-notes {
+    text-align: left;
+}
+
+.editing-id {
+    text-align: left;
+}
+
 input {
     display: inline;
 }
 
 #input-notes {
-    height: 120px;
+    width: 100%;
 }
 
 #editing-id {
+    width: 100%;
+    text-align: center;
     color: red;
     font-weight: bold;
 }
@@ -59,6 +69,15 @@ input {
 
 #last-statistics {
     font-style: italic;
+    text-align: center;
+    margin: 10px;
+    background-color: lightcyan;
+}
+
+hr {
+    margin: 5px;
+    border-top: 1px solid black;
+    /* padding: 0; */
 }
 
 .line-item {
@@ -92,11 +111,18 @@ input {
 }
 
 @media only screen and (max-width: 900px) {
+    h3 {
+        font-size: x-large;
+    }
     #copyright {
         font-size: x-small;
         padding: 5px;
     }
-    /* label {
+    label {
+        /* text-align: left; */
+        margin: 5px 0px 0px 0px;
+    }
+    /* .label-notes {
         text-align: left;
     }
     .editing-id {
