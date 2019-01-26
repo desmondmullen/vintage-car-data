@@ -97,7 +97,18 @@ hr {
 }
 
 .date {
+    display: inline-block;
+    text-align: center;
+    width: 100px;
     background-color: darkslategray;
+    color: white;
+}
+
+#btn-edit {
+    float: right;
+    text-align: center;
+    width: 50px;
+    background-color: red;
     color: white;
 }
 
