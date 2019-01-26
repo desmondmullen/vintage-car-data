@@ -23,13 +23,37 @@ $(document).ready(function () {
     });
     // Number of online users is the number of objects in the presence list.
     //----------------------
+    var todaysDate = new Date().toLocaleDateString("en-US");
+    var thePreviousGasFillupOdometer = 0;
+    var theLastGasFillupOdometer = 0;
+    var theLastGasFillupGallons = 0;
+    var thePreviousOilFillupOdometer = 0;
+    var theLastOilFillupOdometer = 0;
+    var theLastOilFillupQuarts = 0;
+    var theMPG = 0;
+    var theMPQ = 0;
+
     database.ref("/entries").orderByChild("entryDate").on("value", function (snapshot) {
-        //these five lines get the data into descending date order
+        //this first part gets the data into descending date order but extracts a few things on the way
         let tempArrayOfObjects = [];
         snapshot.forEach((child) => {
             let theKey = child.key;
             let theValue = child.val();
             theValue.entryKey = theKey;
+            if (child.val().entryGallons > 0) {
+                thePreviousGasFillupOdometer = theLastGasFillupOdometer;
+                theLastGasFillupOdometer = child.val().entryOdometer;
+                theLastGasFillupGallons = child.val().entryGallons;
+                theMPG = ((theLastGasFillupOdometer - thePreviousGasFillupOdometer) / theLastGasFillupGallons).toFixed(2) + " mpg gas";
+            }
+            if (child.val().entryQuarts > 0) {
+                thePreviousOilFillupOdometer = theLastOilFillupOdometer;
+                theLastOilFillupOdometer = child.val().entryOdometer;
+                theLastOilFillupQuarts = child.val().entryQuarts;
+                theMPQ = ((theLastOilFillupOdometer - thePreviousOilFillupOdometer) / theLastOilFillupQuarts).toFixed(2) + " mpq oil";
+            }
+            theValue.entryMPG = theMPG;
+            theValue.entryMPQ = theMPQ;
             tempArrayOfObjects.push(theValue);
         });
         theEntries = tempArrayOfObjects.reverse();
@@ -37,17 +61,30 @@ $(document).ready(function () {
         theEntries.forEach(function (child) {
             let theKey = child.entryKey;
             let theDate = child.entryDate;
-            let theOdometer = child.entryOdometer;
-            let theGallons = child.entryGallons;
-            let theQuarts = child.entryQuarts;
-            let theNotes = child.entryNotes;
-            theString = theString + "<div data-id='" + theKey + "' class='line-item'><div id='date" + theKey + "'>" + theDate + "</div><div id='odometer" + theKey + "'>" + theOdometer + "</div><div id='gallons" + theKey + "'>" + theGallons + "</div><div id='quarts" + theKey + "'>" + theQuarts + "</div><div id='notes" + theKey + "'>" + theNotes + "</div></div><hr>";
+            let theOdometer = child.entryOdometer || "&nbsp;";
+            let theGallons = child.entryGallons || "0";
+            let theQuarts = child.entryQuarts || "0";
+            let theNotes = child.entryNotes || "&nbsp;";
+            let theMPG = child.entryMPG || "no mpg data yet";
+            let theMPQ = child.entryMPQ || "no mpq data yet";
+            theString = theString + "<div data-id='" + theKey + "' class='line-item'><div id='date" + theKey + "'>" + theDate + "</div><div id='odometer" + theKey + "'>" + theOdometer + "</div><div id='gallons" + theKey + "'>" + theGallons + "</div><div id='quarts" + theKey + "'>" + theQuarts + "</div><div id='notes" + theKey + "'>" + theNotes + "</div><div id='mpg" + theKey + "'>" + theMPG + "</div><div id='mpq" + theKey + "'>" + theMPQ + "</div></div><hr>";
         });
         $("#display-entries").html(theString);
     }, function (errorObject) {
-        console.log("error: " + errorObject.code);
+        console.log("entries-error: " + errorObject.code);
     });
 
+    database.ref("/statistics").on("value", function (snapshot) {
+        thePreviousGasFillupOdometer = snapshot.val().previousGasFillupOdometer;
+        theLastGasFillupOdometer = snapshot.val().lastGasFillupOdometer;
+        theLastGasFillupGallons = snapshot.val().lastGasFillupGallons;
+        thePreviousOilFillupOdometer = snapshot.val().previousOilFillupOdometer;
+        theLastOilFillupOdometer = snapshot.val().lastOilFillupOdometer;
+        theLastOilFillupQuarts = snapshot.val().lastOilFillupQuarts;
+        $("#last-statistics").html("Last Statistics:<br>" + ((theLastGasFillupOdometer - thePreviousGasFillupOdometer) / theLastGasFillupGallons).toFixed(2) + " mpg gas.<br>" + ((theLastOilFillupOdometer - thePreviousOilFillupOdometer) / theLastOilFillupQuarts).toFixed(2) + " mpq oil.");
+    }, function (errorObject) {
+        console.log("statistics-error: " + errorObject.code);
+    });
 
     $(document.body).on("click", ".line-item", function () {
         let theIDToEdit = $(this).attr('data-id');
@@ -69,9 +106,9 @@ $(document).ready(function () {
     $(".add-entry").on("click", function (event) {
         event.preventDefault();
         let entryDate = $("#input-date").val().trim();
-        let entryOdometer = parseInt($("#input-odometer").val().trim());
-        let entryGallons = parseInt($("#input-gallons").val().trim());
-        let entryQuarts = parseInt($("#input-quarts").val().trim());
+        let entryOdometer = $("#input-odometer").val().trim();
+        let entryGallons = $("#input-gallons").val().trim();
+        let entryQuarts = $("#input-quarts").val().trim();
         let entryNotes = $("#input-notes").val().trim();
 
         if ($("#editing-id").val().trim() != "") {
@@ -92,11 +129,20 @@ $(document).ready(function () {
                 entryNotes: entryNotes,
             });
         };
+        database.ref("/statistics").set({
+            previousGasFillupOdometer: thePreviousGasFillupOdometer,
+            lastGasFillupOdometer: theLastGasFillupOdometer,
+            lastGasFillupGallons: theLastGasFillupGallons,
+            previousOilFillupOdometer: thePreviousOilFillupOdometer,
+            lastOilFillupOdometer: theLastOilFillupOdometer,
+            lastOilFillupQuarts: theLastOilFillupQuarts,
+        });
+
         emptyInputFields();
     });
 
     function emptyInputFields() {
-        $("#input-date").val("");
+        $("#input-date").val(todaysDate);
         $("#input-odometer").val("");
         $("#input-gallons").val("");
         $("#input-quarts").val("");
@@ -119,7 +165,6 @@ $(document).ready(function () {
         $("#update-entry").css('display', 'none');
         $("#delete-entry").css('display', 'none');
         $("#cancel-update").css('display', 'none');
-        emptyInputFields();
     };
 
     $("#cancel-update").on("click", function (event) {
@@ -132,5 +177,5 @@ $(document).ready(function () {
         showAddEntryButton();
     });
 
-
+    emptyInputFields();
 });
