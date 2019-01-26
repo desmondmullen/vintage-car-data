@@ -86,12 +86,12 @@ $(document).ready(function () {
         console.log("statistics-error: " + errorObject.code);
     });
 
-    $(document.body).on("click", ".line-item", function () {
+    $(document.body).on("click", "#btn-edit", function () {
         let theIDToEdit = $(this).attr('data-id');
         startLineItemEdit(theIDToEdit)
     });
 
-    $(document).on('touchstart', '.line-item', function (event) {
+    $(document).on('touchstart', '#btn-edit', function (event) {
         let theIDToEdit = $(this).attr('data-id');
         startLineItemEdit(theIDToEdit)
     });
