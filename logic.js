@@ -33,7 +33,7 @@ $(document).ready(function () {
     var theMPG = 0;
     var theMPQ = 0;
 
-    database.ref("/entries").orderByChild("entryDate").on("value", function (snapshot) {
+    database.ref("/entries").orderByChild("entrySort").on("value", function (snapshot) {
         //this first part gets the data into descending date order but extracts a few things on the way
         let tempArrayOfObjects = [];
         snapshot.forEach((child) => {
@@ -88,7 +88,6 @@ $(document).ready(function () {
 
     $(document.body).on("click", ".line-item", function () {
         let theIDToEdit = $(this).attr('data-id');
-        // console.log(theIDToEdit);
         let entryDate = $("#date" + theIDToEdit).text();
         let entryOdometer = $("#odometer" + theIDToEdit).text();
         let entryGallons = $("#gallons" + theIDToEdit).text();
@@ -110,10 +109,19 @@ $(document).ready(function () {
         let entryGallons = $("#input-gallons").val().trim();
         let entryQuarts = $("#input-quarts").val().trim();
         let entryNotes = $("#input-notes").val().trim();
-
+        let entrySort = entryDate.split("/");
+        for (let n = 0; n < entrySort.length; n++) {
+            if (entrySort[n].length === 1) {
+                entrySort[n] = "0" + entrySort[n];
+            }
+        };
+        entrySortYear = entrySort.splice(2, 1);
+        entrySort.unshift(entrySortYear.toString());
+        entrySort = entrySort.join("");
         if ($("#editing-id").val().trim() != "") {
             let theIDToEdit = $("#editing-id").val().trim();
             database.ref("/entries/" + theIDToEdit).set({
+                entrySort: entrySort,
                 entryDate: entryDate,
                 entryOdometer: entryOdometer,
                 entryGallons: entryGallons,
@@ -122,6 +130,7 @@ $(document).ready(function () {
             });
         } else {
             database.ref("/entries").push({
+                entrySort: entrySort,
                 entryDate: entryDate,
                 entryOdometer: entryOdometer,
                 entryGallons: entryGallons,
