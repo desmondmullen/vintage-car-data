@@ -184,7 +184,9 @@ $(document).ready(function () {
 
     $("#delete-entry").on("click", function (event) {
         let theIDToEdit = $("#editing-id").val().trim();
-        database.ref("/entries/" + theIDToEdit).remove();
+        if (confirm("Are you sure you want to delete this entry?")) {
+            database.ref("/entries/" + theIDToEdit).remove();
+        };
         showAddEntryButton();
     });
 

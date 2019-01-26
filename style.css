@@ -4,6 +4,12 @@ body {
 
 header {
     text-align: center;
+    background-color: gold;
+}
+
+form {
+    background-color: lightsalmon;
+    padding: 10px 0;
 }
 
 label {
@@ -11,6 +17,7 @@ label {
     text-align: right;
     font-weight: bold;
     vertical-align: top;
+    padding: 0 5px;
 }
 
 .label-notes {
@@ -26,7 +33,8 @@ input {
 }
 
 #input-notes {
-    width: 100%;
+    width: 94%;
+    margin-left: 3%;
 }
 
 #editing-id {
@@ -70,8 +78,8 @@ input {
 #last-statistics {
     font-style: italic;
     text-align: center;
-    margin: 10px;
-    background-color: lightcyan;
+    margin: 10px 0;
+    background-color: lightgreen;
 }
 
 hr {
@@ -84,7 +92,8 @@ hr {
     font-family: 'Courier New', Courier, monospace;
     font-weight: bold;
     border: 1px solid black;
-    background-color: whitesmoke;
+    background-color: lightblue;
+    padding: 5px;
 }
 
 .date {
