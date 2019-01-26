@@ -43,17 +43,15 @@ $(document).ready(function () {
         });
     });
 
-    let entryDate = "1/24/19";
-    let entrySort = entryDate.split("/");
-    console.log(entrySort);
-    for (let n = 0; n < entrySort.length; n++) {
-        if (entrySort[n].length === 1) {
-            entrySort[n] = "0" + entrySort[n];
-        }
-    };
-    entrySortYear = entrySort.splice(2, 1);
-    entrySort.unshift(entrySortYear.toString());
-    entrySort = entrySort.join("");
-    console.log(entrySort);
+    // let entryDate = "1/24/19";
+    // let entrySort = entryDate.split("/");
+    // for (let n = 0; n < entrySort.length; n++) {
+    //     if (entrySort[n].length === 1) {
+    //         entrySort[n] = "0" + entrySort[n];
+    //     }
+    // };
+    // entrySortYear = entrySort.splice(2, 1);
+    // entrySort.unshift(entrySortYear.toString());
+    // entrySort = entrySort.join("");
 
 });
