@@ -1,5 +1,4 @@
 body {
-    width: 40ch;
     margin: 5px 20px;
 }
 
@@ -11,6 +10,7 @@ label {
     width: 13ch;
     text-align: right;
     font-weight: bold;
+    vertical-align: top;
 }
 
 input {
@@ -27,8 +27,8 @@ input {
 }
 
 #buttons {
-    /* width: 100%; */
     text-align: center;
+    margin: 5px;
 }
 
 #add-entry {
@@ -64,6 +64,19 @@ input {
 .line-item {
     font-family: 'Courier New', Courier, monospace;
     font-weight: bold;
+    border: 1px solid black;
+    background-color: whitesmoke;
+}
+
+.date {
+    background-color: darkslategray;
+    color: white;
+}
+
+.notes {
+    width: 98%;
+    margin: 0 auto;
+    border: 1px dashed black;
 }
 
 #copyright {
@@ -83,6 +96,12 @@ input {
         font-size: x-small;
         padding: 5px;
     }
+    /* label {
+        text-align: left;
+    }
+    .editing-id {
+        text-align: left;
+    } */
 }
 
 @media only screen and (max-width: 800px) {
