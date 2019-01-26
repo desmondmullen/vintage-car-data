@@ -2,6 +2,7 @@
 <html lang="en-us">
 
 <head>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=yes'>
     <meta charset="UTF-8">
     <title>Vintage Car Data Tracker</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
@@ -13,22 +14,26 @@
 </head>
 
 <body>
+    <header>
+        <h3>Vintage Car Data Tracker</h3>
+    </header>
     <form>
-        <label for="input-date">Date: </label><input id="input-date" type="text" name="input-date"><br>
-        <label for="input-odometer">Odometer: </label><input id="input-odometer" type="text" name="input-odometer"><br>
-        <label for="input-gallons">Gallons of Gas: </label><input id="input-gallons" type="text" name="input-gallons"><br>
-        <label for="input-quarts">Quarts of Oil: </label><input id="input-quarts" type="text" name="input-quarts"><br>
-        <label for="input-notes">Notes: </label><input id="input-notes" type="text" name="input-notes"><br>
-        <input id="editing-id" type="text" name="editing-id">
+        <label for="input-date">Date:</label> <input id="input-date" type="text" name="input-date"><br>
+        <label for="input-odometer">Odometer:</label> <input id="input-odometer" type="text" name="input-odometer"><br>
+        <label for="input-gallons">Gallons of Gas:</label> <input id="input-gallons" type="text" name="input-gallons"><br>
+        <label for="input-quarts">Quarts of Oil:</label> <input id="input-quarts" type="text" name="input-quarts"><br>
+        <label for="input-notes">Notes:</label> <textarea id="input-notes" name="input-notes" columns=20 rows=10></textarea><br>
+        <label for="editing-id" class="editing-id">Entry ID:</label> <input id="editing-id" type="text" name="editing-id"><br>
         <button id="add-entry" class="add-entry">Add Entry</button><button id="update-entry" class="add-entry">Update
-            Entry</button><button id="delete-entry">Delete
-            Entry</button><button id="cancel-update">Cancel
+            Entry</button> <button id="delete-entry">Delete
+            Entry</button> <button id="cancel-update">Cancel
             Update</button>
     </form>
     <hr>
     <div id="last-statistics"></div>
     <hr>
     <div id="display-entries"></div>
+    <section id='copyright'>&copy; 2018 Desmond Mullen <a href='https://desmondmullen.com' target='_blank'>desmondmullen.com</a></section>
 </body>
 
 </html>

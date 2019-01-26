@@ -153,6 +153,7 @@ $(document).ready(function () {
 
     function hideAddEntryButton() {
         $("#add-entry").css('display', 'none');
+        $(".editing-id").css('display', 'inline-block');
         $("#editing-id").css('display', 'inline');
         $("#update-entry").css('display', 'inline');
         $("#delete-entry").css('display', 'inline');
@@ -161,6 +162,7 @@ $(document).ready(function () {
 
     function showAddEntryButton() {
         $("#add-entry").css('display', 'inline');
+        $(".editing-id").css('display', 'none');
         $("#editing-id").css('display', 'none');
         $("#update-entry").css('display', 'none');
         $("#delete-entry").css('display', 'none');

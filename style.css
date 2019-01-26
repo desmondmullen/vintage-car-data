@@ -1,6 +1,5 @@
 label {
-    display: relative;
-    width: 150px;
+    width: 13ch;
     text-align: right;
     font-weight: bold;
 }
@@ -9,13 +8,24 @@ input {
     display: inline;
 }
 
+#input-notes {
+    height: 120px;
+}
+
 #editing-id {
     color: red;
     font-weight: bold;
 }
 
 #add-entry {
-    display: inline;
+    display: inline-block;
+    margin-left: 13ch;
+}
+
+.editing-id {
+    width: 13ch;
+    text-align: right;
+    font-weight: bold;
 }
 
 #editing-id {
@@ -32,4 +42,40 @@ input {
 
 #cancel-update {
     display: none;
+}
+
+#last-statistics {
+    font-style: italic;
+}
+
+.line-item {
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+}
+
+#copyright {
+    width: 100%;
+    text-align: right;
+    position: fixed;
+    bottom: 0;
+    padding: 10px;
+}
+
+@-ms-viewport {
+    width: device-width;
+}
+
+@media only screen and (max-width: 900px) {
+    #copyright {
+        font-size: x-small;
+        padding: 5px;
+    }
+}
+
+@media only screen and (max-width: 800px) {
+    /*really small margins for better layout on mobile in portrait*/
+}
+
+@media only screen and (max-width: 600px) {
+    /*really small margins for better layout on mobile in portrait*/
 }
