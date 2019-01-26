@@ -88,6 +88,28 @@ $(document).ready(function () {
 
     $(document.body).on("click", ".line-item", function () {
         let theIDToEdit = $(this).attr('data-id');
+        startLineItemEdit(theIDToEdit)
+
+        // let entryDate = $("#date" + theIDToEdit).text();
+        // let entryOdometer = $("#odometer" + theIDToEdit).text();
+        // let entryGallons = $("#gallons" + theIDToEdit).text();
+        // let entryQuarts = $("#quarts" + theIDToEdit).text();
+        // let entryNotes = $("#notes" + theIDToEdit).text();
+        // $("#input-date").val(entryDate);
+        // $("#input-odometer").val(entryOdometer);
+        // $("#input-gallons").val(entryGallons);
+        // $("#input-quarts").val(entryQuarts);
+        // $("#input-notes").val(entryNotes);
+        // $("#editing-id").val(theIDToEdit);
+        // hideAddEntryButton()
+    });
+
+    $(document).on('touchstart', '.line-item', function (event) {
+        let theIDToEdit = $(this).attr('data-id');
+        startLineItemEdit(theIDToEdit)
+    });
+
+    function startLineItemEdit(theIDToEdit) {
         let entryDate = $("#date" + theIDToEdit).text();
         let entryOdometer = $("#odometer" + theIDToEdit).text();
         let entryGallons = $("#gallons" + theIDToEdit).text();
@@ -100,7 +122,8 @@ $(document).ready(function () {
         $("#input-notes").val(entryNotes);
         $("#editing-id").val(theIDToEdit);
         hideAddEntryButton()
-    });
+    };
+
 
     $(".add-entry").on("click", function (event) {
         event.preventDefault();
