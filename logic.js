@@ -100,7 +100,7 @@ $(document).ready(function () {
         entrySort = entrySort.join("");
         if ($("#editing-id").text().trim() != "") {
             let theIDToEdit = $("#editing-id").text().trim();
-            database.ref("users/" + userID + "/entries/" + theIDToEdit).set({
+            database.ref(userEntriesPath + "/" + theIDToEdit).set({
                 entrySort: entrySort,
                 entryDate: entryDate,
                 entryOdometer: entryOdometer,
@@ -109,7 +109,7 @@ $(document).ready(function () {
                 entryNotes: entryNotes,
             });
         } else {
-            database.ref("users/" + userID + "/entries").push({
+            database.ref(userEntriesPath).push({
                 entrySort: entrySort,
                 entryDate: entryDate,
                 entryOdometer: entryOdometer,
@@ -118,7 +118,7 @@ $(document).ready(function () {
                 entryNotes: entryNotes,
             });
         };
-        database.ref("users/" + userID + "/statistics").set({
+        database.ref(userStatisticsPath).set({
             previousGasFillupOdometer: thePreviousGasFillupOdometer,
             lastGasFillupOdometer: theLastGasFillupOdometer,
             lastGasFillupGallons: theLastGasFillupGallons,
@@ -156,9 +156,9 @@ $(document).ready(function () {
     });
 
     $("#delete-entry").on("click", function (event) {
-        let theIDToEdit = $("#editing-id").val().trim();
+        let theIDToEdit = $("#editing-id").text().trim();
         if (confirm("Are you sure you want to delete this entry?")) {
-            database.ref("users/" + userID + "/entries/" + theIDToEdit).remove();
+            database.ref(userEntriesPath + "/" + theIDToEdit).remove();
         };
         emptyInputFields();
     });
@@ -204,7 +204,7 @@ $(document).ready(function () {
 
     function doSignOut() {
         firebase.auth().signOut();
-        firebase.database().ref("users/" + userID + "/userID").set({
+        firebase.database().ref(userStatisticsPath).set({
             email: userEmail,
             signedIn: false
         });
@@ -269,7 +269,7 @@ $(document).ready(function () {
                 userSignedIn = true;
                 userEntriesPath = "users/" + userID + "/entries";
                 userStatisticsPath = "users/" + userID + "/statistics";
-                userUsersPath = "users/" + userID;
+                // userUsersPath = "users/" + userID;
                 displayApplicationOrAuthentication();
                 document.getElementById("sign-in").textContent = "Sign out";
                 if (!userEmailVerified) {
@@ -372,7 +372,7 @@ $(document).ready(function () {
             let entryGallons = theLineObject.entryGallons;
             let entryQuarts = theLineObject.entryQuarts;
             let entryNotes = theLineObject.entryNotes;
-            database.ref("users/" + userID + "/entries").push({
+            database.ref(userEntriesPath).push({
                 entrySort: entrySort,
                 entryDate: entryDate,
                 entryOdometer: entryOdometer,
