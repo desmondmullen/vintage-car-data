@@ -21,6 +21,7 @@ $(document).ready(function () {
     var userEntriesPath;
     var userStatisticsPath;
     var userUsersPath;
+    var userWhichVehicle;
 
     function displayApplicationOrAuthentication() {
         if (userSignedIn === true) {
@@ -124,6 +125,7 @@ $(document).ready(function () {
             });
         };
         database.ref(userStatisticsPath).set({
+            vehicleName: $("#vehicle-name").val(),
             previousGasFillupOdometer: thePreviousGasFillupOdometer,
             lastGasFillupOdometer: theLastGasFillupOdometer,
             lastGasFillupGallons: theLastGasFillupGallons,
@@ -156,11 +158,11 @@ $(document).ready(function () {
         $("#editing-display").css("display", "none");
     };
 
-    $("#cancel-update").on("click", function (event) {
+    $("#cancel-update").click(function () {
         emptyInputFields();
     });
 
-    $("#delete-entry").on("click", function (event) {
+    $("#delete-entry").click(function () {
         let theIDToEdit = $("#editing-id").text().trim();
         if (confirm("Are you sure you want to delete this entry?")) {
             database.ref(userEntriesPath + "/" + theIDToEdit).remove();
@@ -168,7 +170,19 @@ $(document).ready(function () {
         emptyInputFields();
     });
 
-    $("#sign-out").on("click", function (event) {
+    $(".which-vehicle-radio-button").click(function () {
+        let theVehicleToGoTo = $("input[name='which-vehicle']:checked").val();
+        switchToVehicle(theVehicleToGoTo);
+        location = location //reloads page to get newlt selected vehicle's data
+    });
+
+    function switchToVehicle(theVehicleToGoTo) {
+        localStorage.whichVehicle = theVehicleToGoTo;
+        let theString = "#btn-" + theVehicleToGoTo;
+        $(theString).prop("checked", true);
+    }
+
+    $("#sign-out").click(function () {
         doSignOut();
     });
 
@@ -209,7 +223,7 @@ $(document).ready(function () {
 
     function doSignOut() {
         firebase.auth().signOut();
-        firebase.database().ref(userStatisticsPath).set({
+        firebase.database().ref(userUsersPath).set({
             email: userEmail,
             signedIn: false
         });
@@ -261,11 +275,16 @@ $(document).ready(function () {
             //exclude silent
             if (user) {
                 // User is signed in.
+                if (!localStorage.whichVehicle) {
+                    localStorage.whichVehicle = 1;
+                };
+                userWhichVehicle = localStorage.whichVehicle;
+                switchToVehicle(userWhichVehicle)
                 userEmail = user.email;
                 userID = user.uid;
                 userSignedIn = true;
-                userEntriesPath = "users/" + userID + "/entries";
-                userStatisticsPath = "users/" + userID + "/statistics";
+                userEntriesPath = "users/" + userID + "/" + userWhichVehicle + "/entries";
+                userStatisticsPath = "users/" + userID + "/" + userWhichVehicle + "/statistics";
                 userUsersPath = "users/" + userID;
                 displayApplicationOrAuthentication();
                 document.getElementById("sign-in").textContent = "Sign out";
@@ -317,13 +336,23 @@ $(document).ready(function () {
 
                 database.ref(userStatisticsPath).on("value", function (snapshot) {
                     if (snapshot.exists()) {
+                        theVehicleName = snapshot.val().vehicleName;
                         thePreviousGasFillupOdometer = snapshot.val().previousGasFillupOdometer;
                         theLastGasFillupOdometer = snapshot.val().lastGasFillupOdometer;
                         theLastGasFillupGallons = snapshot.val().lastGasFillupGallons;
                         thePreviousOilFillupOdometer = snapshot.val().previousOilFillupOdometer;
                         theLastOilFillupOdometer = snapshot.val().lastOilFillupOdometer;
                         theLastOilFillupQuarts = snapshot.val().lastOilFillupQuarts;
-                        $("#last-statistics").html("Last Statistics:<br>" + ((theLastGasFillupOdometer - thePreviousGasFillupOdometer) / theLastGasFillupGallons).toFixed(2) + " mpg gas.<br>" + ((theLastOilFillupOdometer - thePreviousOilFillupOdometer) / theLastOilFillupQuarts).toFixed(2) + " mpq oil.");
+                        $("#vehicle-name").val(theVehicleName);
+                        let theMPGInfo = ((theLastGasFillupOdometer - thePreviousGasFillupOdometer) / theLastGasFillupGallons).toFixed(2) + " mpg gas. "
+                        if (theMPGInfo === "NaN mpg gas. ") {
+                            theMPGInfo = "no mpg data yet. "
+                        }
+                        let theMPQInfo = ((theLastOilFillupOdometer - thePreviousOilFillupOdometer) / theLastOilFillupQuarts).toFixed(2) + " mpq oil."
+                        if (theMPQInfo === "NaN mpq oil.") {
+                            theMPQInfo = "no mpg data yet. "
+                        }
+                        $("#vehicle-data").html(theMPGInfo + theMPQInfo);
                     };
                 }, function (errorObject) {
                     console.log("statistics-error: " + errorObject.code);

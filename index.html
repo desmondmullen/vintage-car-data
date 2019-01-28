@@ -4,7 +4,7 @@
 <head>
     <meta name='viewport' content='width=device-width, initial-scale=1.0, user-scalable=yes'>
     <meta charset="UTF-8">
-    <title>Vintage Car Data Tracker</title>
+    <title>Vehicle Data Tracker</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="style.css">
@@ -15,7 +15,7 @@
 
 <body>
     <header>
-        <h3>Vintage Car Data Tracker</h3>
+        <h3>Vehicle Data Tracker</h3>
         <button id="sign-out">Sign Out</button>
     </header>
     <div id="authentication">
@@ -51,10 +51,22 @@
                 Entry</button> <button id="cancel-update">Cancel
                 Update</button>
         </div>
-        <div id="last-statistics"></div>
+        <div id="vehicle-data-wrapper">
+            <input id="vehicle-name" size=18 placeholder="Enter vehicle nickname..."></input>
+            <div id="vehicle-data"></div>
+        </div>
         <div id="display-entries"></div>
+        <div id="bottom-bar">
+            Vehicle: <input id="btn-one" type="radio" class="which-vehicle-radio-button" name="which-vehicle" value="one"
+                checked>One<input id="btn-two" type="radio" class="which-vehicle-radio-button" name="which-vehicle"
+                value="two">Two<input id="btn-three" type="radio" class="which-vehicle-radio-button" name="which-vehicle"
+                value="three">Three<input id="btn-four" type="radio" class="which-vehicle-radio-button" name="which-vehicle"
+                value="four">Four<input id="btn-five" type="radio" class="which-vehicle-radio-button" name="which-vehicle"
+                value="five">Five
+            <section id='copyright'>&copy; 2018 Desmond Mullen <a href='https://desmondmullen.com' target='_blank'
+                    class='copyright-link'>desmondmullen.com</a></section>
+        </div>
     </div>
-    <section id='copyright'>&copy; 2018 Desmond Mullen <a href='https://desmondmullen.com' target='_blank'>desmondmullen.com</a></section>
 </body>
 
 </html>
