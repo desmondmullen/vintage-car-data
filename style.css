@@ -11,9 +11,19 @@ h3 {
     /* display: inline-block; */
 }
 
+button {
+    margin: 10px;
+}
+
 #sign-out {
     float: right;
     margin: 10px;
+}
+
+#authentication {
+    text-align: center;
+    width: 100%;
+    background-color: palevioletred;
 }
 
 #application {
@@ -43,6 +53,7 @@ label {
 
 input {
     display: inline;
+    margin-right: 10px;
 }
 
 #input-notes {

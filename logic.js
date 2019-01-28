@@ -20,12 +20,14 @@ $(document).ready(function () {
     function displayApplicationOrAuthentication() {
         if (userSignedIn === true) {
             //displayApplication
-            $("#application").css('visibility', 'visible');
-            $("#authentication").css('display', 'none');
+            $("#application").css("visibility", "visible");
+            $("#authentication").css("display", "none");
+            $("#sign-out").css("display", "inline");
         } else {
             //displayAuthentication
-            $("#application").css('visibility', 'hidden');
-            $("#authentication").css('display', 'inline-block');
+            $("#application").css("visibility", "hidden");
+            $("#authentication").css("display", "inline-block");
+            $("#sign-out").css("display", "none");
         }
     };
     displayApplicationOrAuthentication()
@@ -55,12 +57,12 @@ $(document).ready(function () {
     var theMPQ = 0;
 
     $(document.body).on("click", "#btn-edit", function () {
-        let theIDToEdit = $(this).attr('data-id');
+        let theIDToEdit = $(this).attr("data-id");
         startLineItemEdit(theIDToEdit)
     });
 
-    $(document).on('touchstart', '#btn-edit', function (event) {
-        let theIDToEdit = $(this).attr('data-id');
+    $(document).on("touchstart", "#btn-edit", function (event) {
+        let theIDToEdit = $(this).attr("data-id");
         startLineItemEdit(theIDToEdit)
     });
 
@@ -139,14 +141,14 @@ $(document).ready(function () {
     };
 
     function hideAddEntryButton() {
-        $("#add-entry").css('display', 'none');
-        $("#editing-display").css('display', 'inline-block');
-        $("#editing-id").css('display', 'inline');
+        $("#add-entry").css("display", "none");
+        $("#editing-display").css("display", "inline-block");
+        $("#editing-id").css("display", "inline");
     };
 
     function showAddEntryButton() {
-        $("#add-entry").css('display', 'inline');
-        $("#editing-display").css('display', 'none');
+        $("#add-entry").css("display", "inline");
+        $("#editing-display").css("display", "none");
     };
 
     $("#cancel-update").on("click", function (event) {
@@ -175,29 +177,29 @@ $(document).ready(function () {
             //do signout
             doSignOut();
         } else {
-            var email = document.getElementById('email').value;
-            var password = document.getElementById('password').value;
+            var email = document.getElementById("email").value;
+            var password = document.getElementById("password").value;
             if (email.length < 4) {
-                alert('Please enter an email address.');
+                alert("Please enter an email address.");
                 return;
             }
             if (password.length < 4) {
-                alert('Please enter a password.');
+                alert("Please enter a password.");
                 return;
             }
             firebase.auth().signInWithEmailAndPassword(email, password).catch(function (error) {
                 var errorCode = error.code;
                 var errorMessage = error.message;
-                if (errorCode === 'auth/wrong-password') {
-                    alert('Wrong password.');
+                if (errorCode === "auth/wrong-password") {
+                    alert("Wrong password.");
                 } else {
                     alert(errorMessage);
                 }
                 console.log(error);
-                document.getElementById('sign-in').disabled = false;
+                document.getElementById("sign-in").disabled = false;
             });
         }
-        document.getElementById('sign-in').disabled = true;
+        document.getElementById("sign-in").disabled = true;
     }
 
     function doSignOut() {
@@ -210,21 +212,21 @@ $(document).ready(function () {
 
     //Handles the sign up button press.
     function handleSignUp() {
-        var email = document.getElementById('email').value;
-        var password = document.getElementById('password').value;
+        var email = document.getElementById("email").value;
+        var password = document.getElementById("password").value;
         if (email.length < 4) {
-            alert('Please enter an email address.');
+            alert("Please enter an email address.");
             return;
         }
         if (password.length < 4) {
-            alert('Please enter a password.');
+            alert("Please enter a password.");
             return;
         }
         firebase.auth().createUserWithEmailAndPassword(email, password).catch(function (error) {
             var errorCode = error.code;
             var errorMessage = error.message;
-            if (errorCode == 'auth/weak-password') {
-                alert('The password is too weak.');
+            if (errorCode == "auth/weak-password") {
+                alert("The password is too weak.");
             } else {
                 alert(errorMessage);
             }
@@ -234,20 +236,20 @@ $(document).ready(function () {
 
     function sendEmailVerification() {
         firebase.auth().currentUser.sendEmailVerification().then(function () {
-            alert('Email Verification Sent!');
+            alert("Email Verification Sent!");
         });
     }
 
     function sendPasswordReset() {
-        var email = document.getElementById('email').value;
+        var email = document.getElementById("email").value;
         firebase.auth().sendPasswordResetEmail(email).then(function () {
-            alert('Password Reset Email Sent!');
+            alert("Password Reset Email Sent!");
         }).catch(function (error) {
             var errorCode = error.code;
             var errorMessage = error.message;
-            if (errorCode == 'auth/invalid-email') {
+            if (errorCode == "auth/invalid-email") {
                 alert(errorMessage);
-            } else if (errorCode == 'auth/user-not-found') {
+            } else if (errorCode == "auth/user-not-found") {
                 alert(errorMessage);
             }
             console.log(error);
@@ -258,7 +260,7 @@ $(document).ready(function () {
     function initializeDatabaseReferences() {
         firebase.auth().onAuthStateChanged(function (user) {
             //exclude silent
-            document.getElementById('verify-email').disabled = true;
+            document.getElementById("verify-email").disabled = true;
             if (user) {
                 // User is signed in.
                 userEmail = user.email;
@@ -269,9 +271,9 @@ $(document).ready(function () {
                 userStatisticsPath = "users/" + userID + "/statistics";
                 userUsersPath = "users/" + userID;
                 displayApplicationOrAuthentication();
-                document.getElementById('sign-in').textContent = 'Sign out';
+                document.getElementById("sign-in").textContent = "Sign out";
                 if (!userEmailVerified) {
-                    document.getElementById('verify-email').disabled = false;
+                    document.getElementById("verify-email").disabled = false;
                 }
                 firebase.database().ref("users/" + userID + "/userID").set({
                     email: userEmail,
@@ -332,13 +334,15 @@ $(document).ready(function () {
                 }, function (errorObject) {
                     console.log("statistics-error: " + errorObject.code);
                 });
+                // setInitialData();
             } else {
                 // User is signed out.
                 userSignedIn = false;
                 displayApplicationOrAuthentication();
-                document.getElementById('sign-in').textContent = 'Sign in';
+                document.getElementById("sign-in").textContent = "Sign in";
             }
-            document.getElementById('sign-in').disabled = false;
+            // document.getElementById("sign-in").disabled = true;
+            document.getElementById("sign-in").disabled = false;
         });
 
         $(document.body).on("click", "#sign-in", function () {
