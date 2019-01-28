@@ -7,6 +7,19 @@ header {
     background-color: gold;
 }
 
+h3 {
+    /* display: inline-block; */
+}
+
+#sign-out {
+    float: right;
+    margin: 10px;
+}
+
+#application {
+    visibility: hidden;
+}
+
 form {
     background-color: lightskyblue;
     padding: 10px 0;
@@ -38,41 +51,28 @@ input {
 }
 
 #editing-id {
-    width: 100%;
+    display: none;
     text-align: center;
     color: red;
     font-weight: bold;
 }
 
-#buttons {
+#editing-display {
+    width: 100%;
+    display: none;
     text-align: center;
     margin: 5px;
 }
 
+#add-entry-display {
+    width: 100%;
+    text-align: center;
+}
+
 #add-entry {
-    display: inline-block;
-}
-
-.editing-id {
-    width: 13ch;
-    text-align: right;
-    font-weight: bold;
-}
-
-#editing-id {
-    display: none;
-}
-
-#update-entry {
-    display: none;
-}
-
-#delete-entry {
-    display: none;
-}
-
-#cancel-update {
-    display: none;
+    display: inline;
+    text-align: center;
+    margin: 0 auto;
 }
 
 #last-statistics {

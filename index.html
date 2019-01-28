@@ -16,22 +16,69 @@
 <body>
     <header>
         <h3>Vintage Car Data Tracker</h3>
+        <button id="sign-out">Sign Out</button>
     </header>
-    <form>
-        <label for="input-date">Date:</label> <input id="input-date" type="text" name="input-date" size=10><br>
-        <label for="input-odometer">Odometer:</label> <input id="input-odometer" type="text" name="input-odometer" size=10><br>
-        <label for="input-gallons">Gallons of Gas:</label> <input id="input-gallons" type="text" name="input-gallons"
-            size=10><br>
-        <label for="input-quarts">Quarts of Oil:</label> <input id="input-quarts" type="text" name="input-quarts" size=10><br>
-        <label for="input-notes" class="label-notes">Notes:</label> <textarea id="input-notes" name="input-notes" rows=4></textarea><br>
-        <label for="editing-id" class="editing-id">Editing Entry ID:</label> <input id="editing-id" type="text" name="editing-id">
-        <div id="buttons"><button id="add-entry" class="add-entry">Add Entry</button><button id="update-entry" class="add-entry">Update
+    <div id="authentication">
+        <div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-header">
+
+            <main class="mdl-layout__content mdl-color--grey-100">
+                <div class="mdl-cell mdl-cell--12-col mdl-cell--12-col-tablet mdl-grid">
+
+                    <!-- Container for the demo -->
+                    <div class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-cell--12-col-tablet mdl-cell--12-col-desktop">
+                        <div class="mdl-card__title mdl-color--light-blue-600 mdl-color-text--white">
+                            <h2 class="mdl-card__title-text">Firebase Email &amp; Password Authentication</h2>
+                        </div>
+                        <div class="mdl-card__supporting-text mdl-color-text--grey-600">
+                            <p>Enter an email and password below and either sign in to an existing account or sign up</p>
+
+                            <input class="mdl-textfield__input" style="display:inline;width:auto;" type="text" id="email"
+                                name="email" placeholder="Email" />
+                            &nbsp;&nbsp;&nbsp;
+                            <input class="mdl-textfield__input" style="display:inline;width:auto;" type="password" id="password"
+                                name="password" placeholder="Password" />
+                            <br /><br />
+                            <button disabled class="sign-in mdl-button mdl-js-button mdl-button--raised" id="sign-in"
+                                name="signin">Sign
+                                In</button>
+                            &nbsp;&nbsp;&nbsp;
+                            <button class="mdl-button mdl-js-button mdl-button--raised" id="sign-up" name="signup">Sign
+                                Up</button>
+                            &nbsp;&nbsp;&nbsp;
+                            <button class="mdl-button mdl-js-button mdl-button--raised" disabled id="verify-email" name="verify-email">Send
+                                Email Verification</button>
+                            &nbsp;&nbsp;&nbsp;
+                            <button class="mdl-button mdl-js-button mdl-button--raised" id="password-reset" name="verify-email">Send
+                                Password Reset Email</button>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <div id="application">
+        <form>
+            <label for="input-date">Date:</label> <input id="input-date" type="text" name="input-date" size=10><br>
+            <label for="input-odometer">Odometer:</label> <input id="input-odometer" type="text" name="input-odometer"
+                size=10><br>
+            <label for="input-gallons">Gallons of Gas:</label> <input id="input-gallons" type="text" name="input-gallons"
+                size=10><br>
+            <label for="input-quarts">Quarts of Oil:</label> <input id="input-quarts" type="text" name="input-quarts"
+                size=10><br>
+            <label for="input-notes" class="label-notes">Notes:</label> <textarea id="input-notes" name="input-notes"
+                rows=4></textarea><br>
+            <div id="add-entry-display"><button id="add-entry" class="add-entry">Add Entry</button></div>
+        </form>
+        <div id="editing-display">Editing Entry ID: <div id="editing-id"></div><br>
+            <button id="update-entry" class="add-entry">Update
                 Entry</button> <button id="delete-entry">Delete
                 Entry</button> <button id="cancel-update">Cancel
-                Update</button></div>
-    </form>
-    <div id="last-statistics"></div>
-    <div id="display-entries"></div>
+                Update</button>
+        </div>
+        <div id="last-statistics"></div>
+        <div id="display-entries"></div>
+    </div>
     <section id='copyright'>&copy; 2018 Desmond Mullen <a href='https://desmondmullen.com' target='_blank'>desmondmullen.com</a></section>
 </body>
 

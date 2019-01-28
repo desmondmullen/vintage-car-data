@@ -9,6 +9,7 @@ $(document).ready(function () {
     };
     firebase.initializeApp(config);
     var database = firebase.database();
+    var userID = "XzO9ZPJbcQf2oKDwVyz7F3qFj4f1"; //on 1/27/19
     //----------------------
     var connectionsRef = database.ref("/connections");
     var connectedRef = database.ref(".info/connected");
