@@ -171,7 +171,6 @@ $(document).ready(function () {
 
     //Handles the sign in button press.
     function toggleSignIn() {
-        console.log("toggleSignIn");
         if (firebase.auth().currentUser) {
             //do signout
             doSignOut();
