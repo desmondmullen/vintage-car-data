@@ -12,7 +12,12 @@ h3 {
 }
 
 button {
-    margin: 10px;
+    margin: 10px 5px;
+}
+
+p {
+    width: 40%;
+    margin-left: 30%;
 }
 
 #sign-out {
@@ -145,6 +150,10 @@ hr {
 @media only screen and (max-width: 900px) {
     h3 {
         font-size: x-large;
+    }
+    p {
+        width: 100%;
+        margin-left: 0;
     }
     #copyright {
         font-size: x-small;

@@ -18,7 +18,6 @@ $(document).ready(function () {
     var userID;
     var userSignedIn;
     var userEmail;
-    var userEmailVerified;
     var userEntriesPath;
     var userStatisticsPath;
     var userUsersPath;
@@ -197,7 +196,7 @@ $(document).ready(function () {
                 var errorCode = error.code;
                 var errorMessage = error.message;
                 if (errorCode === "auth/wrong-password") {
-                    alert("Wrong password.");
+                    alert("Password is incorrect.");
                 } else {
                     alert(errorMessage);
                 }
@@ -232,7 +231,7 @@ $(document).ready(function () {
             var errorCode = error.code;
             var errorMessage = error.message;
             if (errorCode == "auth/weak-password") {
-                alert("The password is too weak.");
+                alert("The password must be at least 6 characters.");
             } else {
                 alert(errorMessage);
             }
@@ -240,16 +239,10 @@ $(document).ready(function () {
         });
     }
 
-    function sendEmailVerification() {
-        firebase.auth().currentUser.sendEmailVerification().then(function () {
-            alert("Email Verification Sent!");
-        });
-    }
-
     function sendPasswordReset() {
         var email = document.getElementById("email").value;
         firebase.auth().sendPasswordResetEmail(email).then(function () {
-            alert("Password Reset Email Sent!");
+            alert("If there is an account with the address '" + email + "', a password reset link will be sent to that address.");
         }).catch(function (error) {
             var errorCode = error.code;
             var errorMessage = error.message;
@@ -266,21 +259,16 @@ $(document).ready(function () {
     function initializeDatabaseReferences() {
         firebase.auth().onAuthStateChanged(function (user) {
             //exclude silent
-            document.getElementById("verify-email").disabled = true;
             if (user) {
                 // User is signed in.
                 userEmail = user.email;
                 userID = user.uid;
-                userEmailVerified = user.emailVerified;
                 userSignedIn = true;
                 userEntriesPath = "users/" + userID + "/entries";
                 userStatisticsPath = "users/" + userID + "/statistics";
-                // userUsersPath = "users/" + userID;
+                userUsersPath = "users/" + userID;
                 displayApplicationOrAuthentication();
                 document.getElementById("sign-in").textContent = "Sign out";
-                if (!userEmailVerified) {
-                    document.getElementById("verify-email").disabled = false;
-                }
                 firebase.database().ref("users/" + userID + "/userID").set({
                     email: userEmail,
                     signedIn: true
@@ -354,11 +342,8 @@ $(document).ready(function () {
         $(document.body).on("click", "#sign-in", function () {
             toggleSignIn();
         });
-        $(document.body).on("click", "#sign-up", function () {
+        $(document.body).on("click", "#create-account", function () {
             handleSignUp();
-        });
-        $(document.body).on("click", "#verify-email", function () {
-            sendEmailVerification();
         });
         $(document.body).on("click", "#password-reset", function () {
             sendPasswordReset();
